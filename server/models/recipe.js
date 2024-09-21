@@ -16,7 +16,7 @@ const recipeSchema = new Schema({
         required: "This field is required.",
     },
     ingredients: {
-        type: Array,
+        type: [String],
         required: "This field is required.",
     },
     category: {
@@ -32,6 +32,12 @@ const recipeSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User",
     },
+    reviews: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Review"
+        }
+    ],
 });
 
 recipeSchema.index({ name: "text", description: "text", category: "text"});

@@ -8,6 +8,7 @@ const flash = require('connect-flash');
 const methodOverride = require("method-override");
 const User = require("./server/models/user.js");
 const path = require("path");
+const ExpressError = require("./utility/ExpressError.js");
 
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -62,10 +63,16 @@ app.set("layout", "layouts/main");
 app.set('views', path.join(__dirname, 'views')); 
 
 const recipeRoutes = require("./server/routes/recipeRoutes.js");
-const userRoutes = require("./server/routes/userRoute.js");
+const userRoutes = require("./server/routes/userRoutes.js");
+const reviewRoutes = require("./server/routes/reviewRoutes.js");
 app.use("/user", userRoutes);
 app.use("/", recipeRoutes);
+app.use("/recipe/:id/reviews", reviewRoutes);
 
+
+app.all("*", (req, res, next) => {
+    next(new ExpressError(404, "Page not found"));
+})
 
 //middleware
 app.use((err, req, res, next) => {

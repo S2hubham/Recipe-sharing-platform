@@ -7,7 +7,7 @@ module.exports.renderSignupForm = (req, res) => {
 module.exports.signupSuccess = async (req, res) => {
     try {
         let { username, email, password } = req.body;
-        let newUser = new User({ email, username });
+        let newUser = new User({ email, username }); 
         const regUser = await User.register(newUser, password);
         // Automatically log in the user after signup
         req.login(regUser, (err) => {

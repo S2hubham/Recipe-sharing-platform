@@ -116,35 +116,44 @@ module.exports.submitRecipeForm = async (req, res) => {
 // POST submit-recipe form
 module.exports.submitRecipe = async (req, res) => {
     try {
+        console.log("inside submit");
         let imageUploadFile;
         let uploadPath;
         let newImageName;
 
-        if(!req.files || Object.keys(req.files).length === 0){
-            console.log('No Files where uploaded.');
-        } 
-        else {
+        // Handle image upload
+        if (!req.files || Object.keys(req.files).length === 0) {
+            console.log('No Files were uploaded.');
+        } else {
             imageUploadFile = req.files.image;
             newImageName = Date.now() + imageUploadFile.name;
             uploadPath = require('path').resolve('./') + '/public/uploads/' + newImageName;
             imageUploadFile.mv(uploadPath, function(err){
-              if(err) return res.satus(500).send(err);
-            })
+                if(err) return res.status(500).send(err);
+            });
         }
 
+        // Check if ingredients are provided as a string and convert to an array
+        const ingredients = req.body.ingredients.split(',').map(item => item.trim());
+
+        // Ensure user (owner) is added to the recipe
         const newRecipe = new Recipe({
             name: req.body.name,
             description: req.body.description,
             email: req.body.email,
-            ingredients: req.body.ingredients,
+            ingredients: ingredients,  // Save as array
             category: req.body.category,
-            image: newImageName
+            image: newImageName,
+            user: req.user ? req.user._id : null  // Link to user if available
         });
+
+        // Save the new recipe
         await newRecipe.save();
-        req.flash('infoSubmit', 'Recipe has been added.')
+        req.flash('infoSubmit', 'Recipe has been added.');
         res.redirect("/");
     } catch (error) {
-        req.flash('infoErrors', error);
+        console.log("submit erree");
+        req.flash('infoErrors', error.message || error);
         res.redirect('/submit-recipe');
     }
 };

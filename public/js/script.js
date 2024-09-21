@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function() {
-  console.log("Page is fully loaded and script is running!");
 
   // Add Ingredients functionality
   let addIngredientsBtn = document.getElementById('addIngredientsBtn');
@@ -17,7 +16,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // Form validation
   const forms = document.querySelectorAll('.needs-validation');
-  console.log("Starting form validation logic");
 
   Array.from(forms).forEach(form => {
       form.addEventListener('submit', event => {

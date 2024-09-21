@@ -13,3 +13,4 @@ db.once('open', function() {
 require('./category');
 require('./recipe');
 require('./user');
+require('./review');

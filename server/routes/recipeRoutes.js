@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router(); // Capitalize Router
 const recipeController = require("../controllers/recipeController");
+const { isLoggedIn, isOwner, validateRecipe } = require("../../middleware.js");
 
 // App routes
 router.get("/", recipeController.homepage);
@@ -25,8 +26,8 @@ router.get("/explore-random", recipeController.exploreRandom);
 
 // submit recipe
 // GET
-router.get("/submit-recipe", recipeController.submitRecipeForm);
+router.get("/submit-recipe", isLoggedIn, recipeController.submitRecipeForm);
 // POST
-router.post("/submit-recipe", recipeController.submitRecipe);
+router.post("/submit-recipe", isLoggedIn, validateRecipe, recipeController.submitRecipe);
 
 module.exports = router; // Change export to exports
