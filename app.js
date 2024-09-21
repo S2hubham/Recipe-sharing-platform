@@ -6,7 +6,8 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
 const methodOverride = require("method-override");
-const User = require("./server/models/user.js")
+const User = require("./server/models/user.js");
+const path = require("path");
 
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -57,12 +58,21 @@ app.use(fileUpload());
 // });
 
 app.set("view engine", "ejs");
-app.set("layout", "./layouts/main");
+app.set("layout", "layouts/main");
+app.set('views', path.join(__dirname, 'views')); 
 
 const recipeRoutes = require("./server/routes/recipeRoutes.js");
 const userRoutes = require("./server/routes/userRoute.js");
 app.use("/user", userRoutes);
 app.use("/", recipeRoutes);
+
+
+//middleware
+app.use((err, req, res, next) => {
+    let {status = 500, message = "Something went wrong"} = err;
+    // res.status(status).send(message);
+    res.status(status).render("recipe/error.ejs", {message})
+});
 
 app.listen(port, () => {
     console.log(`Server listening to port ${port}`);
