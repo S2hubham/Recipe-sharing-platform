@@ -1,0 +1,21 @@
+<div class="row mt-5">
+    <h1 class="col-6 offset-3 mb-3" style="text-align: center;">Signup</h1>
+    <div class="col-4 offset-4">
+        <form action="/user/signup" method="post" novalidate class="needs-validation">
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" id="username" name="username" class="form-control" required>
+                <div class="valid-feedback">looks good!</div>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">E-Mail</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div>
+            <button class="btn btn-dark add-btn mt-3 offset-5">SignUp</button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+:root{
+    --bs-font-sans-serif: "Rubik", sans-serif,
+}
+
+/* .container-xxl{
+    max-width: 1430px;
+} */
+
+body{
+    background-image: url("/img/i-like-food.svg");
+    background-color: rgb(243, 243, 243);
+}
+
+*{color: var(--bs-dark);}
+
+/* category */
+.category_link{
+    text-align: center;
+    display: block;
+    text-decoration: none;
+    transition: 250ms all;
+}
+
+.category_link:hover{
+    transform: scale(1.1);
+}
+
+.category_img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    margin-bottom: 10px;
+    box-shadow: 0px 3xp 6px rgba(0, 0, 0, .16);
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.category_img-large{
+    height: 330px;
+}
+
+.category_img img{
+    width: 100%;
+    object-fit: cover;
+}
+
+
+/* bread crum */
+.breadcrumb {
+    background-color: #f8f9fa; /* Light background */
+    padding: 10px; /* Padding */
+    border-radius: 5px; /* Rounded corners */
+}
+
+.breadcrumb-item a {
+    color: #4caf50; /* Theme color */
+    text-decoration: none; /* Remove underline */
+}
+
+.breadcrumb-item a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+.breadcrumb-item.active {
+    color: #000; /* Active breadcrumb color */
+    font-weight: bold; /* Bold font */
+}
