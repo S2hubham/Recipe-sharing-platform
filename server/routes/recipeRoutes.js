@@ -26,8 +26,8 @@ router.get("/explore-random", recipeController.exploreRandom);
 
 // submit recipe
 // GET
-router.get("/submit-recipe", isLoggedIn, recipeController.submitRecipeForm);
+router.get("/submit-recipe", recipeController.submitRecipeForm);
 // POST
-router.post("/submit-recipe", isLoggedIn, validateRecipe, recipeController.submitRecipe);
+router.post("/submit-recipe", recipeController.submitRecipe);
 
 module.exports = router; // Change export to exports

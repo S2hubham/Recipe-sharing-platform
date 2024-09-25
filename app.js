@@ -9,6 +9,11 @@ const methodOverride = require("method-override");
 const User = require("./server/models/user.js");
 const path = require("path");
 const ExpressError = require("./utility/ExpressError.js");
+app.use(express.urlencoded({ extended: true }))
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -46,7 +51,6 @@ const port = process.env.PORT || 8080;
 
 require("dotenv").config();
 
-app.use(express.urlencoded({extended: true}));
 app.use(express.static("public"));
 app.use(expressLayouts);
 app.use(methodOverride("_method"));

@@ -114,46 +114,58 @@ module.exports.submitRecipeForm = async (req, res) => {
 
 
 // POST submit-recipe form
-module.exports.submitRecipe = async (req, res) => {
-    try {
-        console.log("inside submit");
-        let imageUploadFile;
-        let uploadPath;
-        let newImageName;
+const path = require('path'); // Require the path module
+const fs = require('fs'); // Require the fs module
 
-        // Handle image upload
-        if (!req.files || Object.keys(req.files).length === 0) {
-            console.log('No Files were uploaded.');
-        } else {
-            imageUploadFile = req.files.image;
-            newImageName = Date.now() + imageUploadFile.name;
-            uploadPath = require('path').resolve('./') + '/public/uploads/' + newImageName;
-            imageUploadFile.mv(uploadPath, function(err){
-                if(err) return res.status(500).send(err);
-            });
+module.exports.submitRecipe = async (req, res) => {
+    // Check if files were uploaded
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+    }
+
+    // Access the file
+    const recipeImage = req.files['recipe[image]'];
+
+    // Define the uploads directory path
+    const uploadsDir = path.join(__dirname, '..', 'uploads');
+
+    // Ensure the uploads directory exists
+    if (!fs.existsSync(uploadsDir)) {
+        fs.mkdirSync(uploadsDir); // Create uploads directory if it doesn't exist
+    }
+
+    // Define the upload path
+    const uploadPath = path.join(uploadsDir, recipeImage.name); // Path to save the uploaded file
+
+    // Move the file to the uploads directory
+    recipeImage.mv(uploadPath, async (err) => {
+        if (err) {
+            console.error("Error moving file:", err); // Log the error for debugging
+            return res.status(500).send("Failed to upload the file.");
         }
 
-        // Check if ingredients are provided as a string and convert to an array
-        const ingredients = req.body.ingredients.split(',').map(item => item.trim());
-
-        // Ensure user (owner) is added to the recipe
+        // Create the new recipe object
+        console.log(req.body);
         const newRecipe = new Recipe({
-            name: req.body.name,
-            description: req.body.description,
-            email: req.body.email,
-            ingredients: ingredients,  // Save as array
-            category: req.body.category,
-            image: newImageName,
-            user: req.user ? req.user._id : null  // Link to user if available
+            name: req.body['recipe[name]'], // Use bracket notation to access the name
+            description: req.body['recipe[description]'], // Use bracket notation to access the description
+            ingredients: req.body['recipe[ingredients][]'] ? [req.body['recipe[ingredients][]']] : [], // Handle array correctly
+            category: req.body['recipe[category]'], // Use bracket notation to access the category
+            image: recipeImage.name, // Store the image name
+            user: req.user ? req.user._id : null // Link to user if available
         });
+        
+        console.log(newRecipe); // Log the new recipe for debugging
 
-        // Save the new recipe
-        await newRecipe.save();
-        req.flash('infoSubmit', 'Recipe has been added.');
-        res.redirect("/");
-    } catch (error) {
-        console.log("submit erree");
-        req.flash('infoErrors', error.message || error);
-        res.redirect('/submit-recipe');
-    }
+        try {
+            // Save the new recipe
+            await newRecipe.save();
+            req.flash('infoSubmit', 'Recipe has been added.');
+            res.redirect("/");
+        } catch (error) {
+            console.log("Submit error:", error); // Log the error during save
+            req.flash('infoErrors', error.message || error);
+            res.redirect('/submit-recipe');
+        }
+    });
 };

@@ -1,6 +1,6 @@
 .env
 node_modules/
 package-lock.json
-package.json
 public/img
 public/uploads
+next.txt

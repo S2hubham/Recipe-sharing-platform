@@ -11,10 +11,6 @@ const recipeSchema = new Schema({
         type: String,
         required: "This field is required.",
     },
-    email: {
-        type: String,
-        required: "This field is required.",
-    },
     ingredients: {
         type: [String],
         required: "This field is required.",

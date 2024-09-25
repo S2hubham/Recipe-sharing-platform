@@ -22,10 +22,6 @@
         <form action="/submit-recipe" enctype="multipart/form-data" method="POST" novalidate class="needs-validation">
             <div class="row g-3">
                 <div class="col-12">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" name="recipe[email]" id="email" class="form-control" required>
-                </div>
-                <div class="col-12">
                     <label for="name" class="form-label">Recipe Name</label>
                     <input type="text" name="recipe[name]" id="name" class="form-control" required>
                 </div>
@@ -38,7 +34,7 @@
                     <small>Example: Ice</small>
                     <div class="ingredientList">
                         <div class="ingredientDiv mb-1">
-                            <input name="recipe[ingredients]" id="ingredients" class="form-control" required>
+                            <input name="recipe[ingredients][]" id="ingredients" class="form-control" required>
                         </div>
                     </div>
                 </div>
@@ -58,7 +54,7 @@
                 </div>
                 <div class="col-12">
                     <label for="image">Image</label>
-                    <input type="file" name="image" id="image" class="form-control" accept="image/*" required>
+                    <input type="file" name="recipe[image]" id="image" class="form-control" accept="image/*">
                 </div>
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary">Submit Recipe</button>

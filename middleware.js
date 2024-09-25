@@ -37,6 +37,7 @@ module.exports.validateRecipe = (req, res, next) => {
     const { error } = recipeSchema.validate(req.body);
     if (error) {
         const errMsg = error.details.map(el => el.message).join(",");
+        console.log(error);
         throw new ExpressError(400, errMsg);
     } else {
         next();
@@ -45,7 +46,7 @@ module.exports.validateRecipe = (req, res, next) => {
 
 
 module.exports.validateReview = (req, res, next) => {
-    const { error } = reviewSchema.validate(req.body);
+    const { error } = reviewSchema.validate(req.body); 
     if (error) {
         const errMsg = error.details.map(el => el.message).join(",");
         throw new ExpressError(400, errMsg);
