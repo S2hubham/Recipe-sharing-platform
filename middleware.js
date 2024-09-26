@@ -34,7 +34,18 @@ module.exports.isOwner = async (req, res, next) => {
 
 
 module.exports.validateRecipe = (req, res, next) => {
-    const { error } = recipeSchema.validate(req.body);
+    const ingredientsArray = req.body['recipe[ingredients][]'];
+    const ingredients = Array.isArray(ingredientsArray) ? ingredientsArray : [ingredientsArray];
+    const recipeData = {
+        recipe: {
+            name: req.body['recipe[name]'],
+            description: req.body['recipe[description]'],
+            ingredients,
+            category: req.body['recipe[category]'],
+            image: req.body['recipe[image]'] 
+        }
+    };
+    const { error } = recipeSchema.validate(recipeData);
     if (error) {
         const errMsg = error.details.map(el => el.message).join(",");
         console.log(error);

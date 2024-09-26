@@ -3,14 +3,15 @@ const Joi = require('joi');
 module.exports.recipeSchema = Joi.object({
     recipe: Joi.object({
         name: Joi.string().required(),
-        description: Joi.string().default("No description provided"),
-        ingredients: Joi.array().items(Joi.string().required()).min(1).required(),
+        description: Joi.string().optional().default("No description provided"),
+        ingredients: Joi.array().items(Joi.string().required()).min(1).required(), 
         image: Joi.any(), 
         category: Joi.string().valid(
             "Thai", "American", "Chinese", "Mexican", "Indian"
         ).required(),
     }).required()
 });
+
 
 
 
